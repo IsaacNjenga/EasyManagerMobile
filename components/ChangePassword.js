@@ -1,6 +1,7 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button, Card, Input, Modal, Text } from "@ui-kitten/components";
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import CustomSpinner from "./CustomSpinner";
 import ErrorDisplay from "./ErrorDisplay";
 
@@ -15,8 +16,15 @@ const ChangePassword = ({ visible, setVisible }) => {
   const [otpRequested, setOtpRequested] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const [spinnerText, setSpinnerText] = useState("");
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [secureTextEntry2, setSecureTextEntry2] = useState(true);
 
-  const dismiss = () => setVisible(false);
+  const dismiss = () => {
+    setVisible(false);
+    setOtpRequested(false);
+    setOtpVerified(false);
+    setLoading(false);
+  };
 
   const getOtp = async () => {
     setLoading(true);
@@ -36,7 +44,7 @@ const ChangePassword = ({ visible, setVisible }) => {
     setLoading(true);
     try {
       setOtpVerified(true);
-      setSpinnerText("Verifying...");
+      setSpinnerText("Verifying OTP...");
     } catch (error) {
       console.log(error);
       setErrorText(error.message);
@@ -58,6 +66,34 @@ const ChangePassword = ({ visible, setVisible }) => {
     }
   };
 
+  const toggleSecureEntry = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+
+  const toggleSecureEntry2 = () => {
+    setSecureTextEntry2(!secureTextEntry2);
+  };
+
+  const renderIcon = () => (
+    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
+      {secureTextEntry ? (
+        <Ionicons name="eye-off" size={24} color="black" />
+      ) : (
+        <Ionicons name="eye" size={24} color="black" />
+      )}
+    </TouchableWithoutFeedback>
+  );
+
+  const renderIcon2 = () => (
+    <TouchableWithoutFeedback onPress={toggleSecureEntry2}>
+      {secureTextEntry2 ? (
+        <Ionicons name="eye-off" size={24} color="black" />
+      ) : (
+        <Ionicons name="eye" size={24} color="black" />
+      )}
+    </TouchableWithoutFeedback>
+  );
+
   return (
     <Modal visible={visible} backdropStyle={styles.backdrop}>
       <Card disabled={true} style={styles.card}>
@@ -72,7 +108,7 @@ const ChangePassword = ({ visible, setVisible }) => {
               value={email}
               onChangeText={(value) => setEmail(value)}
             />
-            <Button onPress={getOtp} style={styles.inlineButton}>
+            <Button onPress={getOtp} style={styles.inlineButton} size="medium">
               Get OTP
             </Button>
           </View>
@@ -90,6 +126,7 @@ const ChangePassword = ({ visible, setVisible }) => {
               onPress={verifyOtp}
               style={styles.inlineButton}
               disabled={!otpRequested}
+              size="medium"
             >
               Verify OTP
             </Button>
@@ -98,7 +135,8 @@ const ChangePassword = ({ visible, setVisible }) => {
           <Input
             status="primary"
             label="Set your new password"
-            secureTextEntry
+            secureTextEntry={secureTextEntry}
+            accessoryRight={renderIcon}
             style={styles.input}
             value={password}
             onChangeText={(value) => setPassword(value)}
@@ -107,7 +145,8 @@ const ChangePassword = ({ visible, setVisible }) => {
           <Input
             status="primary"
             label="Re-enter your new password"
-            secureTextEntry
+            secureTextEntry={secureTextEntry2}
+            accessoryRight={renderIcon2}
             style={styles.input}
             value={retypePassword}
             onChangeText={(value) => setRetypePassword(value)}
@@ -160,15 +199,17 @@ const styles = StyleSheet.create({
   },
   inputRow: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-end",
     gap: 0,
   },
   inputFlex: {
     flex: 1,
-    borderRadius: 9,
+    borderTopLeftRadius: 9,
+    borderBottomLeftRadius: 9,
   },
   inlineButton: {
-    height: 35,
-    borderRadius: 10,
+    height: 40,
+    borderTopRightRadius: 9,
+    borderBottomRightRadius: 9,
   },
 });

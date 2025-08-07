@@ -1,6 +1,7 @@
 import ChangePassword from "@/components/ChangePassword";
 import CustomSpinner from "@/components/CustomSpinner";
 import ErrorDisplay from "@/components/ErrorDisplay";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button, Input, Text } from "@ui-kitten/components";
 import React, { useState } from "react";
 import {
@@ -25,6 +26,7 @@ const AuthPage = () => {
   const [errorText, setErrorText] = useState("");
   const [errorVisible, setErrorVisible] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const onLogin = async () => {
     setLoading(true);
@@ -44,6 +46,20 @@ const AuthPage = () => {
       }
     }
   };
+
+  const toggleSecureEntry = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+
+  const renderIcon = () => (
+    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
+      {secureTextEntry ? (
+        <Ionicons name="eye-off" size={24} color="black" />
+      ) : (
+        <Ionicons name="eye" size={24} color="black" />
+      )}
+    </TouchableWithoutFeedback>
+  );
 
   return (
     <KeyboardAvoidingView
@@ -70,7 +86,8 @@ const AuthPage = () => {
               <Input
                 status="primary"
                 label="Password"
-                secureTextEntry
+                secureTextEntry={secureTextEntry}
+                accessoryRight={renderIcon}
                 style={styles.input}
                 value={password}
                 onChangeText={(value) => setPassword(value)}
