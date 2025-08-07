@@ -99,6 +99,8 @@ const AuthPage = () => {
               <Input
                 status="primary"
                 label="Sales ID"
+                autoCapitalize="none"
+                autoComplete="none"
                 style={styles.input}
                 value={number}
                 onChangeText={(value) => setNumber(value)}
@@ -106,6 +108,8 @@ const AuthPage = () => {
               <Input
                 status="primary"
                 label="Password"
+                autoCapitalize="none"
+                autoComplete="none"
                 secureTextEntry={secureTextEntry}
                 accessoryRight={renderIcon}
                 style={styles.input}
