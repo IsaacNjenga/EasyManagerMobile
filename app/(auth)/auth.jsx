@@ -37,18 +37,25 @@ const AuthPage = () => {
       try {
         const result = await login(number, password);
         if (!result.success) {
-          console.log(result.message || {});
-          setErrorText(
-            result.message || "There was an unexpected error on sign up!"
-          );
+          console.log("Full error object:", result.message);
+          console.log("result", result);
+
+          const errMessage =
+            result.error?.message ||
+            result.error?.error ||
+            result.message ||
+            "There was an unexpected error on login.";
+
+          setErrorText(errMessage);
+          setErrorVisible(true);
         } else {
           console.log("Login successful!");
           setNumber("");
           setPassword("");
         }
       } catch (error) {
-        console.log(error);
-        setErrorText(error.message);
+        console.log("catcerror", error);
+        setErrorText(error.message ?? "Unexpected error occurred on login");
         setErrorVisible(true);
       } finally {
         setLoading(false);

@@ -4,7 +4,7 @@ import React from "react";
 const HomeLayout = () => {
   return (
     <Stack>
-      <Stack.Screen name="index" />
+      <Stack.Screen name="index"  />
     </Stack>
   );
 };
