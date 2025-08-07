@@ -1,3 +1,4 @@
+import ChangePassword from "@/components/ChangePassword";
 import CustomSpinner from "@/components/CustomSpinner";
 import ErrorDisplay from "@/components/ErrorDisplay";
 import { Button, Input, Text } from "@ui-kitten/components";
@@ -23,12 +24,17 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [errorVisible, setErrorVisible] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const onLogin = async () => {
     setLoading(true);
     {
       try {
         //TODO: set up authentication
+        const values = { id, password };
+        console.log(values);
+        setId("");
+        setPassword("");
       } catch (error) {
         console.log(error);
         setErrorText(error.message);
@@ -54,20 +60,34 @@ const AuthPage = () => {
             <Image source={loginImg} style={styles.image} />
             <Text style={styles.header}>Login</Text>
             <View style={styles.inputContainer}>
-              <Input status="primary" label="Sales ID" style={styles.input} />
+              <Input
+                status="primary"
+                label="Sales ID"
+                style={styles.input}
+                value={id}
+                onChangeText={(value) => setId(value)}
+              />
               <Input
                 status="primary"
                 label="Password"
                 secureTextEntry
                 style={styles.input}
+                value={password}
+                onChangeText={(value) => setPassword(value)}
               />
             </View>
-            <Text style={styles.bottomText}>Forgot password?</Text>
+            <Button
+              appearance="ghost"
+              style={styles.bottomText}
+              onPress={() => setPasswordVisible(true)}
+            >
+              Forgot password?
+            </Button>
             <View style={styles.buttonContainer}>
               <Button
                 style={styles.button}
                 appearance="filled"
-                onPress={() => setErrorVisible(true)}
+                onPress={onLogin}
               >
                 Login
               </Button>
@@ -78,6 +98,10 @@ const AuthPage = () => {
             visible={errorVisible}
             setVisible={setErrorVisible}
             text={errorText}
+          />
+          <ChangePassword
+            visible={passwordVisible}
+            setVisible={setPasswordVisible}
           />
         </ScrollView>
       </TouchableWithoutFeedback>
@@ -99,11 +123,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     marginBottom: 10,
-    lineHeight: 50,
+    lineHeight: 80,
   },
   input: { borderRadius: 9, marginVertical: 5 },
   inputContainer: { margin: 10, padding: 5 },
-  bottomText: { marginVertical: 0, color: "grey", marginHorizontal: 15 },
+  bottomText: {
+    marginVertical: 0,
+    color: "grey",
+    marginHorizontal: 100,
+    lineHeight: 50,
+  },
   buttonContainer: { margin: 0 },
   button: { marginVertical: 20, marginHorizontal: 80, borderRadius: 40 },
 });
