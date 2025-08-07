@@ -1,6 +1,7 @@
 import ChangePassword from "@/components/ChangePassword";
 import CustomSpinner from "@/components/CustomSpinner";
 import ErrorDisplay from "@/components/ErrorDisplay";
+import { useAuthStore } from "@/providers/AuthStore";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button, Input, Text } from "@ui-kitten/components";
 import React, { useState } from "react";
@@ -20,7 +21,7 @@ import loginImg from "../../assets/images/login.png";
 const { width } = Dimensions.get("window");
 
 const AuthPage = () => {
-  const [id, setId] = useState("");
+  const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
@@ -28,15 +29,23 @@ const AuthPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
+  const { login, isCheckingAuth } = useAuthStore();
+
   const onLogin = async () => {
     setLoading(true);
     {
       try {
-        //TODO: set up authentication
-        const values = { id, password };
-        console.log(values);
-        setId("");
-        setPassword("");
+        const result = await login(number, password);
+        if (!result.success) {
+          console.log(result.message || {});
+          setErrorText(
+            result.message || "There was an unexpected error on sign up!"
+          );
+        } else {
+          console.log("Login successful!");
+          setId("");
+          setPassword("");
+        }
       } catch (error) {
         console.log(error);
         setErrorText(error.message);
@@ -54,12 +63,16 @@ const AuthPage = () => {
   const renderIcon = () => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
       {secureTextEntry ? (
-        <Ionicons name="eye-off" size={24} color="black" />
+        <Ionicons name="eye-off" size={18} color="black" />
       ) : (
-        <Ionicons name="eye" size={24} color="black" />
+        <Ionicons name="eye" size={18} color="black" />
       )}
     </TouchableWithoutFeedback>
   );
+
+  if (isCheckingAuth) {
+    return null;
+  }
 
   return (
     <KeyboardAvoidingView
@@ -80,8 +93,8 @@ const AuthPage = () => {
                 status="primary"
                 label="Sales ID"
                 style={styles.input}
-                value={id}
-                onChangeText={(value) => setId(value)}
+                value={number}
+                onChangeText={(value) => setNumber(value)}
               />
               <Input
                 status="primary"

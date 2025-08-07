@@ -77,9 +77,9 @@ const ChangePassword = ({ visible, setVisible }) => {
   const renderIcon = () => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
       {secureTextEntry ? (
-        <Ionicons name="eye-off" size={24} color="black" />
+        <Ionicons name="eye-off" size={18} color="black" />
       ) : (
-        <Ionicons name="eye" size={24} color="black" />
+        <Ionicons name="eye" size={18} color="black" />
       )}
     </TouchableWithoutFeedback>
   );
@@ -87,9 +87,9 @@ const ChangePassword = ({ visible, setVisible }) => {
   const renderIcon2 = () => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry2}>
       {secureTextEntry2 ? (
-        <Ionicons name="eye-off" size={24} color="black" />
+        <Ionicons name="eye-off" size={18} color="black" />
       ) : (
-        <Ionicons name="eye" size={24} color="black" />
+        <Ionicons name="eye" size={18} color="black" />
       )}
     </TouchableWithoutFeedback>
   );
