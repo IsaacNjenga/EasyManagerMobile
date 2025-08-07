@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 
-export const API_URL = process.envEXPO_PUBLIC_SERVER_URL;
+export const API_URL = process.env.EXPO_PUBLIC_SERVER_URL;
 
 export const useAuthStore = create((set) => ({
   user: null,

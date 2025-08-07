@@ -44,7 +44,6 @@ export default function RootLayout() {
 
   if (!authChecked) return null;
 
-  console.log("segments", segments);
 
   return (
     <SafeAreaProvider>

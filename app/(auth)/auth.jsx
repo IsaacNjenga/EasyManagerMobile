@@ -43,7 +43,7 @@ const AuthPage = () => {
           );
         } else {
           console.log("Login successful!");
-          setId("");
+          setNumber("");
           setPassword("");
         }
       } catch (error) {
