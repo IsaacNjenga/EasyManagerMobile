@@ -85,7 +85,7 @@ const AuthPage = () => {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={100}
+      keyboardVerticalOffset={10}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView
