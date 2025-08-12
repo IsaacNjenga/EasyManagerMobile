@@ -19,6 +19,7 @@ const HomeLayout = () => {
         options={{
           title: "Home",
           tabBarIcon: () => <Ionicons name="home" size={25} />,
+          
         }}
       />
       <Tabs.Screen
@@ -26,6 +27,13 @@ const HomeLayout = () => {
         options={{
           title: "Products",
           tabBarIcon: () => <Ionicons name="apps-sharp" size={25} />,
+        }}
+      />
+      <Tabs.Screen
+        name="sales"
+        options={{
+          title: "Sales",
+          tabBarIcon: () => <Ionicons name="basket" size={25} />,
         }}
       />
     </Tabs>
