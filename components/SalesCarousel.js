@@ -1,4 +1,5 @@
 import { Card } from "@ui-kitten/components";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useRef } from "react";
 import {
   Animated,
@@ -10,8 +11,8 @@ import {
 } from "react-native";
 
 const { width } = Dimensions.get("window");
-const CARD_WIDTH = 240;
-const SPACING = 20;
+const CARD_WIDTH = 300;
+const SPACING = 12;
 const ITEM_SIZE = CARD_WIDTH + SPACING * 2;
 
 export default function SalesCarousel({ salesDetails }) {
@@ -61,25 +62,36 @@ export default function SalesCarousel({ salesDetails }) {
               }}
             >
               <Card style={styles.card}>
-                <Image
-                  source={{ uri: item.image }}
-                  style={styles.image}
-                  resizeMode="cover"
-                />
-                <Text style={styles.productName}>{item.product}</Text>
-                <Text style={styles.detailText}>Code: {item.code}</Text>
-                <Text style={styles.detailText}>Colour: {item.colour}</Text>
-                <Text style={styles.price}>
-                  KES. {item.price.toLocaleString()}
-                </Text>
-                <Text style={styles.detailText}>Qty: {item.quantity}</Text>
-                <Text style={styles.detailText}>
-                  Commission: KES. {item.commission.toLocaleString()}
-                </Text>
-                <Text style={styles.detailText}>
-                  Salesperson: {item.salesperson}
-                </Text>
-                <Text style={styles.detailText}>Date: {item.date}</Text>
+                <View style={styles.imageContainer}>
+                  <Image
+                    source={{ uri: item.image }}
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+                  <LinearGradient
+                    colors={["transparent", "rgba(0,0,0,0.7)"]}
+                    style={styles.gradientOverlay}
+                  />
+                  <View style={styles.overlayContent}>
+                    <Text style={styles.productName}>{item.product}</Text>
+                    <Text style={styles.price}>
+                      KES. {item.price.toLocaleString()}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.infoSection}>
+                  <Text style={styles.detailText}>Code: {item.code}</Text>
+                  <Text style={styles.detailText}>Colour: {item.colour}</Text>
+                  <Text style={styles.detailText}>
+                    Qty: {item.quantity} | Comm: KES.{" "}
+                    {item.commission.toLocaleString()}
+                  </Text>
+                  <Text style={styles.detailText}>
+                    Salesperson: {item.salesperson}
+                  </Text>
+                  <Text style={styles.detailText}>Date: {item.date}</Text>
+                </View>
               </Card>
             </Animated.View>
           );
@@ -91,10 +103,10 @@ export default function SalesCarousel({ salesDetails }) {
 
 const styles = StyleSheet.create({
   card: {
-    width: 250,
     borderRadius: 16,
     marginRight: 15,
-    padding: 10,
+    padding: 5,
+    overflow: "hidden",
     backgroundColor: "#fff",
     elevation: 10,
     shadowColor: "#000",
@@ -103,26 +115,51 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     marginBottom: 20,
   },
+  imageContainer: {
+    position: "relative",
+  },
   image: {
     width: "100%",
-    height: 150,
-    borderRadius: 8,
-    marginBottom: 12,
+    height: 200,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    backgroundColor: "#eee",
+  },
+  gradientOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 100,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+  },
+  overlayContent: {
+    position: "absolute",
+    bottom: 10,
+    left: 10,
   },
   productName: {
     fontSize: 25,
     fontWeight: "bold",
     marginBottom: 4,
-    color: "#222",
+    color: "#ffffffff",
   },
   price: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#057f00",
+    color: "#10f108ff",
     marginBottom: 4,
   },
   detailText: {
     fontSize: 18,
     color: "#555",
+    textAlign: "left",
+  },
+  infoSection: {
+    paddingVertical: 10,
+    textAlign: "left",
   },
 });
