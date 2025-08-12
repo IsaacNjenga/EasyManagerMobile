@@ -5,7 +5,7 @@ import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 const SalesCarousel = ({ salesDetails }) => {
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
-      <Image source={item.image} style={styles.image} />
+      <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.productName}>{item.product}</Text>
       <Text style={styles.detailText}>Code: {item.code}</Text>
       <Text style={styles.detailText}>Colour: {item.colour}</Text>
