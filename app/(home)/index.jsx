@@ -122,3 +122,4 @@ const styles = StyleSheet.create({
   cardTitle: { fontSize: 30, fontWeight: "600", lineHeight: 40 },
   cardText: { fontSize: 24, fontWeight: "bold" },
 });
+
