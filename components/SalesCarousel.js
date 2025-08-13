@@ -22,7 +22,7 @@ export default function SalesCarousel({ salesDetails }) {
     <View style={{ paddingVertical: 20, backgroundColor: "whitesmoke" }}>
       <Animated.FlatList
         data={salesDetails}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item?._id}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: (width - CARD_WIDTH) / 2 }}
@@ -64,16 +64,23 @@ export default function SalesCarousel({ salesDetails }) {
               <Card style={styles.card}>
                 <View style={styles.imageContainer}>
                   <Image
-                    source={{ uri: item.image }}
+                    source={
+                      item.image &&
+                      item.image.length > 0 &&
+                      item.image[0].trim() != ""
+                        ? { uri: item.image[0] }
+                        : require("../assets/images/fallback.png")
+                    }
                     style={styles.image}
                     resizeMode="cover"
                   />
+
                   <LinearGradient
                     colors={["transparent", "rgba(0,0,0,0.7)"]}
                     style={styles.gradientOverlay}
                   />
                   <View style={styles.overlayContent}>
-                    <Text style={styles.productName}>{item.product}</Text>
+                    <Text style={styles.productName}>{item.description}</Text>
                     <Text style={styles.price}>
                       KES. {item.price.toLocaleString()}
                     </Text>
@@ -88,9 +95,16 @@ export default function SalesCarousel({ salesDetails }) {
                     {item.commission.toLocaleString()}
                   </Text>
                   <Text style={styles.detailText}>
-                    Salesperson: {item.salesperson}
+                    Salesperson: {item.saleperson}
                   </Text>
-                  <Text style={styles.detailText}>Date: {item.date}</Text>
+                  <Text style={styles.detailText}>
+                    Date Sold:
+                    {new Date(item.datesold).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </Text>
                 </View>
               </Card>
             </Animated.View>
@@ -157,6 +171,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#555",
     textAlign: "left",
+    lineHeight: 25,
   },
   infoSection: {
     paddingVertical: 10,

@@ -34,8 +34,6 @@ const numbersDetails = [
 
 const HomeScreen = () => {
   const { logout } = useAuthStore();
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
   const [selectedPeriod, setSelectedPeriod] = useState("today");
   const [day, setDay] = useState(null);
   const [date, setDate] = useState(null);
@@ -258,7 +256,7 @@ const HomeScreen = () => {
             : selectedPeriod}
           :
         </Text>
-        <SalesCarousel salesDetails={salesDetails} />
+        <SalesCarousel salesDetails={salesData} />
       </View>
     </ScrollView>
   );
