@@ -1,10 +1,9 @@
-import { salesDetails } from "@/assets/data/mockData";
 import { expenseData, salesData } from "@/assets/data/realData";
 import { getDashboardData } from "@/components/DashboardData";
 import SalesCarousel from "@/components/SalesCarousel";
 import { useAuthStore } from "@/providers/AuthStore";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Button, Card } from "@ui-kitten/components";
+import { Button, Card, Datepicker } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
@@ -36,7 +35,7 @@ const HomeScreen = () => {
   const { logout } = useAuthStore();
   const [selectedPeriod, setSelectedPeriod] = useState("today");
   const [day, setDay] = useState(null);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [filteredSales, setFilteredSales] = useState([]);
   const [filteredExpenses, setFilteredExpenses] = useState([]);
@@ -201,6 +200,25 @@ const HomeScreen = () => {
         </ScrollView>
       </View>
 
+      {/* datepicker */}
+      <View style={styles.datePicker}>
+        <View style={styles.datePickerContainer}>
+          <View>
+            <Text style={{ fontSize: 20 }}>Select a date:</Text>
+          </View>
+          <View style={{ width: "75%" }}>
+            <Datepicker
+              date={date}
+              onSelect={(nextDate) => setDate(nextDate)}
+            />
+          </View>
+        </View>
+        {date && (
+          <Text style={{ fontSize: 20 }}>{date.toLocaleDateString()}</Text>
+        )}
+      </View>
+
+      {/* buttons for the period selection */}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={true}
@@ -256,7 +274,7 @@ const HomeScreen = () => {
             : selectedPeriod}
           :
         </Text>
-        <SalesCarousel salesDetails={salesData} />
+        <SalesCarousel salesDetails={filteredSales} />
       </View>
     </ScrollView>
   );
@@ -273,7 +291,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: "#00152ae8",
     paddingHorizontal: 10,
-    paddingBottom: 70,
+    paddingBottom: 40,
     paddingTop: 20,
   },
   header: {
@@ -305,7 +323,7 @@ const styles = StyleSheet.create({
   cardScrollContent: {
     paddingHorizontal: 15,
     gap: 20,
-    marginVertical: 10,
+    marginVertical: 5,
   },
   card: {
     borderRadius: 18,
@@ -317,10 +335,22 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 15,
     marginVertical: 20,
+    marginBottom: 4,
   },
   cardTitle: { fontSize: 30, fontWeight: "600", lineHeight: 40 },
   cardText: { fontSize: 24, fontWeight: "bold" },
   salesHeader: { fontSize: 30, marginHorizontal: 20, lineHeight: 40 },
-
-  buttonGroup: { borderColor: "rgba(0,0,0,0)" },
+  buttonGroup: { borderColor: "rgba(0,0,0,0)",marginBottom:5},
+  datePicker: {
+    marginVertical: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+  },
+  datePickerContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 5,
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
 });

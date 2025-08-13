@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 200,
+    height: 230,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     borderBottomLeftRadius: 8,
@@ -197,13 +197,13 @@ const styles = StyleSheet.create({
     left: 10,
   },
   productName: {
-    fontSize: 25,
+    fontSize: 26,
     fontWeight: "bold",
     marginBottom: 4,
     color: "#ffffffff",
   },
   price: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
     color: "#10f108ff",
     marginBottom: 4,
