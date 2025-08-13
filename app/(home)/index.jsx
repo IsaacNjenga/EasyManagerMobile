@@ -8,6 +8,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button, Card } from "@ui-kitten/components";
 import { LinearGradient } from "expo-linear-gradient";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
@@ -336,7 +337,11 @@ const HomeScreen = () => {
             style={styles.statCard}
           >
             <Text style={styles.label}>Sales Made</Text>
-            <Formatter value={filteredSales.length} fontColor={"white"} fontSize={35} />
+            <Formatter
+              value={filteredSales.length}
+              fontColor={"white"}
+              fontSize={35}
+            />
           </LinearGradient>
         </View>
       </View>
@@ -399,6 +404,7 @@ const HomeScreen = () => {
 
         <SalesCarousel salesDetails={filteredSales} />
       </View>
+      <StatusBar style={"dark"} />
     </ScrollView>
   );
 };
