@@ -11,7 +11,10 @@ export const salesData = [
     datesold: "2025-03-05T16:03:42.517Z",
     saleperson: "ALEX",
     commission: 500,
-    image: ["https://images.unsplash.com/photo-1526554850534-7c78330d5f90?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2hhdCUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D"],
+    image: [
+      "https://images.unsplash.com/photo-1526554850534-7c78330d5f90?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2hhdCUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D",
+      "https://plus.unsplash.com/premium_photo-1668790459187-3b2a743253e1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGNoYXQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww",
+    ],
     pnumber: "122",
     code: "HON-12",
     colour: "CREME-BROWN",

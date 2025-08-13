@@ -1,6 +1,6 @@
 import { Card } from "@ui-kitten/components";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
@@ -14,6 +14,46 @@ const { width } = Dimensions.get("window");
 const CARD_WIDTH = 300;
 const SPACING = 12;
 const ITEM_SIZE = CARD_WIDTH + SPACING * 2;
+
+export const ItemImageCarousel = ({ item }) => {
+  // Filter out empty strings or invalid URLs
+  const validImages =
+    Array.isArray(item.image) && item.image.length > 0
+      ? item.image.filter((img) => img && img.trim() !== "")
+      : [];
+
+  const fallbackImage = require("../assets/images/fallback.png");
+
+  // State for carousel index
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Carousel effect (auto-cycle every 3 seconds)
+  useEffect(() => {
+    if (validImages.length <= 1) return; // No carousel if only one or zero images
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex + 1 < validImages.length ? prevIndex + 1 : 0
+      );
+    }, 2500); // 3 seconds
+
+    return () => clearInterval(interval);
+  }, [validImages.length]);
+
+  return (
+    <View>
+      <Image
+        source={
+          validImages.length > 0
+            ? { uri: validImages[currentIndex] }
+            : fallbackImage
+        }
+        style={styles.image}
+        resizeMode="cover"
+      />
+    </View>
+  );
+};
 
 export default function SalesCarousel({ salesDetails }) {
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -63,7 +103,7 @@ export default function SalesCarousel({ salesDetails }) {
             >
               <Card style={styles.card}>
                 <View style={styles.imageContainer}>
-                  <Image
+                  {/* <Image
                     source={
                       item.image &&
                       item.image.length > 0 &&
@@ -73,8 +113,9 @@ export default function SalesCarousel({ salesDetails }) {
                     }
                     style={styles.image}
                     resizeMode="cover"
-                  />
+                  /> */}
 
+                  <ItemImageCarousel item={item} />
                   <LinearGradient
                     colors={["transparent", "rgba(0,0,0,0.7)"]}
                     style={styles.gradientOverlay}
