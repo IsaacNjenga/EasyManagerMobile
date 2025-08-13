@@ -3,7 +3,8 @@ import { getDashboardData } from "@/components/DashboardData";
 import SalesCarousel from "@/components/SalesCarousel";
 import { useAuthStore } from "@/providers/AuthStore";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Button, Card, Datepicker } from "@ui-kitten/components";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Button, Card } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
@@ -39,9 +40,17 @@ const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const [filteredSales, setFilteredSales] = useState([]);
   const [filteredExpenses, setFilteredExpenses] = useState([]);
+  const [show, setShow] = useState(false);
   const currentDateTime = new Date();
 
   const dashboardData = getDashboardData({ salesData, expenseData, day });
+
+  const onDateChange = (date) => {
+    const formatted = date.toISOString().split("T")[0]; // yyyy-MM-dd
+    setSelectedPeriod("randomDay");
+    setDate(date);
+    setDay(formatted);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -202,19 +211,17 @@ const HomeScreen = () => {
 
       {/* datepicker */}
       <View style={styles.datePicker}>
-        <View style={styles.datePickerContainer}>
-          <View>
-            <Text style={{ fontSize: 20 }}>Select a date:</Text>
-          </View>
-          <View style={{ width: "75%" }}>
-            <Datepicker
-              date={date}
-              onSelect={(nextDate) => setDate(nextDate)}
-            />
-          </View>
-        </View>
-        {date && (
-          <Text style={{ fontSize: 20 }}>{date.toLocaleDateString()}</Text>
+        {show && (
+          <DateTimePicker
+            value={date}
+            mode="date"
+            onChange={(event, selectedDate) => {
+              setShow(false); // close the picker
+              if (selectedDate) {
+                onDateChange(selectedDate); // pass actual picked date
+              }
+            }}
+          />
         )}
       </View>
 
@@ -224,6 +231,15 @@ const HomeScreen = () => {
         showsHorizontalScrollIndicator={true}
         contentContainerStyle={styles.cardScrollContent}
       >
+        <Button
+          style={{ backgroundColor: "#0434f5ff", ...styles.buttonGroup }}
+          appearance="filled"
+          onPress={() => {
+            setShow(true);
+          }}
+        >
+          Select a date
+        </Button>
         <Button
           style={{ backgroundColor: "#008001", ...styles.buttonGroup }}
           appearance="filled"
@@ -340,7 +356,7 @@ const styles = StyleSheet.create({
   cardTitle: { fontSize: 30, fontWeight: "600", lineHeight: 40 },
   cardText: { fontSize: 24, fontWeight: "bold" },
   salesHeader: { fontSize: 30, marginHorizontal: 20, lineHeight: 40 },
-  buttonGroup: { borderColor: "rgba(0,0,0,0)",marginBottom:5},
+  buttonGroup: { borderColor: "rgba(0,0,0,0)", marginBottom: 5 },
   datePicker: {
     marginVertical: 5,
     paddingVertical: 10,
