@@ -336,7 +336,7 @@ const HomeScreen = () => {
             style={styles.statCard}
           >
             <Text style={styles.label}>Sales Made</Text>
-            <Formatter value={1100} />
+            <Formatter value={filteredSales.length} fontColor={"white"} fontSize={35} />
           </LinearGradient>
         </View>
       </View>
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 24,
     paddingHorizontal: 20,
-    elevation: 4,
+    elevation: 10,
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 4 },
