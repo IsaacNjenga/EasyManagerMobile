@@ -8,33 +8,143 @@ import { Button, Card } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-const numbersDetails = [
-  {
-    id: 1,
-    title: "Expenses",
-    amount: 4500,
-    icon: "card-outline",
-    iconColor: "#fd0000",
-  },
-  {
-    id: 2,
-    title: "Commissions",
-    amount: 5830,
-    icon: "person-remove-outline",
-    iconColor: "#ffa809",
-  },
-  {
-    id: 3,
-    title: "Profits",
-    amount: 45000,
-    icon: "trending-up-sharp",
-    iconColor: "#057f00",
-  },
-];
+const NumbersDetails = ({
+  expensesDisplay,
+  commissionsDisplay,
+  profitDisplay,
+}) => {
+  const numbersDetails = [
+    {
+      id: 1,
+      title: "Profits",
+      value: profitDisplay().toLocaleString(),
+      icon: "trending-up-sharp",
+      iconColor: "#057f00",
+    },
+    {
+      id: 2,
+      title: "Expenses",
+      value: expensesDisplay().toLocaleString(),
+      icon: "card-outline",
+      iconColor: "#fd0000",
+    },
+    {
+      id: 3,
+      title: "Commissions",
+      value: commissionsDisplay().toLocaleString(),
+      icon: "person-remove-outline",
+      iconColor: "#ffa809",
+    },
+  ];
+
+  return (
+    <>
+      {numbersDetails.map((detail) => (
+        <Card key={detail.id} style={styles.card}>
+          <Text style={{ ...styles.cardTitle, color: detail.iconColor }}>
+            {detail.title}
+          </Text>
+          <Ionicons
+            name={detail.icon}
+            size={55}
+            color={detail.iconColor}
+            style={{ marginVertical: 5 }}
+          />
+          <Text style={{ ...styles.cardText, color: detail.iconColor }}>
+            KES. {detail.value}
+          </Text>
+        </Card>
+      ))}
+    </>
+  );
+};
+
+const ButtonGroup = ({
+  setShow,
+  setSelectedCommission,
+  setSelectedExpense,
+  setSelectedPeriod,
+  setSelectedProfit,
+  setSelectedRevenue,
+}) => {
+  return (
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={true}
+      contentContainerStyle={styles.cardScrollContent}
+    >
+      <Button
+        style={{ backgroundColor: "#0434f5ff", ...styles.buttonGroup }}
+        appearance="filled"
+        onPress={() => {
+          setShow(true);
+        }}
+      >
+        Select a date
+      </Button>
+      <Button
+        style={{ backgroundColor: "#008001", ...styles.buttonGroup }}
+        appearance="filled"
+        onPress={() => {
+          setSelectedPeriod("today");
+          setSelectedRevenue("today");
+          setSelectedExpense("today");
+          setSelectedCommission("today");
+          setSelectedProfit("today");
+        }}
+      >
+        Today
+      </Button>
+      <Button
+        style={{ backgroundColor: "#4676c2", ...styles.buttonGroup }}
+        appearance="filled"
+        onPress={() => {
+          setSelectedPeriod("yesterday");
+          setSelectedRevenue("yesterday");
+          setSelectedExpense("yesterday");
+          setSelectedCommission("yesterday");
+          setSelectedProfit("yesterday");
+        }}
+      >
+        Yesterday
+      </Button>
+      <Button
+        style={{ backgroundColor: "#f0b21a", ...styles.buttonGroup }}
+        appearance="filled"
+        onPress={() => {
+          setSelectedPeriod("lastWeek");
+          setSelectedRevenue("lastWeek");
+          setSelectedExpense("lastWeek");
+          setSelectedCommission("lastWeek");
+          setSelectedProfit("lastWeek");
+        }}
+      >
+        Last 7 days
+      </Button>
+      <Button
+        style={{ backgroundColor: "#fb0102", ...styles.buttonGroup }}
+        appearance="filled"
+        onPress={() => {
+          setSelectedPeriod("lastMonth");
+          setSelectedRevenue("lastMonth");
+          setSelectedExpense("lastMonth");
+          setSelectedCommission("lastMonth");
+          setSelectedProfit("lastMonth");
+        }}
+      >
+        Last 30 days
+      </Button>
+    </ScrollView>
+  );
+};
 
 const HomeScreen = () => {
   const { logout } = useAuthStore();
   const [selectedPeriod, setSelectedPeriod] = useState("today");
+  const [selectedRevenue, setSelectedRevenue] = useState("today");
+  const [selectedProfit, setSelectedProfit] = useState("today");
+  const [selectedExpense, setSelectedExpense] = useState("today");
+  const [selectedCommission, setSelectedCommission] = useState("today");
   const [day, setDay] = useState(null);
   const [date, setDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
@@ -48,6 +158,10 @@ const HomeScreen = () => {
   const onDateChange = (date) => {
     const formatted = date.toISOString().split("T")[0]; // yyyy-MM-dd
     setSelectedPeriod("randomDay");
+    setSelectedRevenue("randomDay");
+    setSelectedExpense("randomDay");
+    setSelectedCommission("randomDay");
+    setSelectedProfit("randomDay");
     setDate(date);
     setDay(formatted);
   };
@@ -179,7 +293,9 @@ const HomeScreen = () => {
 
         <Card style={styles.header}>
           <Text style={styles.headerTextPrimary}>Revenue</Text>
-          <Text style={styles.headerTextSecondary}>KES. 45,000</Text>
+          <Text style={styles.headerTextSecondary}>
+            KES. {revenueDisplay().toLocaleString()}
+          </Text>
         </Card>
       </View>
 
@@ -190,22 +306,11 @@ const HomeScreen = () => {
           showsHorizontalScrollIndicator={true}
           contentContainerStyle={styles.cardScrollContent}
         >
-          {numbersDetails.map((detail) => (
-            <Card key={detail.id} style={styles.card}>
-              <Text style={{ ...styles.cardTitle, color: detail.iconColor }}>
-                {detail.title}
-              </Text>
-              <Ionicons
-                name={detail.icon}
-                size={55}
-                color={detail.iconColor}
-                style={{ marginVertical: 5 }}
-              />
-              <Text style={{ ...styles.cardText, color: detail.iconColor }}>
-                KES. {detail.amount.toLocaleString()}
-              </Text>
-            </Card>
-          ))}
+          <NumbersDetails
+            expensesDisplay={expensesDisplay}
+            commissionsDisplay={commissionsDisplay}
+            profitDisplay={profitDisplay}
+          />
         </ScrollView>
       </View>
 
@@ -218,7 +323,7 @@ const HomeScreen = () => {
             onChange={(event, selectedDate) => {
               setShow(false); // close the picker
               if (selectedDate) {
-                onDateChange(selectedDate); // pass actual picked date
+                onDateChange(selectedDate); // pass the actual picked date
               }
             }}
           />
@@ -226,57 +331,14 @@ const HomeScreen = () => {
       </View>
 
       {/* buttons for the period selection */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={true}
-        contentContainerStyle={styles.cardScrollContent}
-      >
-        <Button
-          style={{ backgroundColor: "#0434f5ff", ...styles.buttonGroup }}
-          appearance="filled"
-          onPress={() => {
-            setShow(true);
-          }}
-        >
-          Select a date
-        </Button>
-        <Button
-          style={{ backgroundColor: "#008001", ...styles.buttonGroup }}
-          appearance="filled"
-          onPress={() => {
-            setSelectedPeriod("today");
-          }}
-        >
-          Today
-        </Button>
-        <Button
-          style={{ backgroundColor: "#4676c2", ...styles.buttonGroup }}
-          appearance="filled"
-          onPress={() => {
-            setSelectedPeriod("yesterday");
-          }}
-        >
-          Yesterday
-        </Button>
-        <Button
-          style={{ backgroundColor: "#f0b21a", ...styles.buttonGroup }}
-          appearance="filled"
-          onPress={() => {
-            setSelectedPeriod("lastWeek");
-          }}
-        >
-          Last 7 days
-        </Button>
-        <Button
-          style={{ backgroundColor: "#fb0102", ...styles.buttonGroup }}
-          appearance="filled"
-          onPress={() => {
-            setSelectedPeriod("lastMonth");
-          }}
-        >
-          Last 30 days
-        </Button>
-      </ScrollView>
+      <ButtonGroup
+        setShow={setShow}
+        setSelectedCommission={setSelectedCommission}
+        setSelectedExpense={setSelectedExpense}
+        setSelectedPeriod={setSelectedPeriod}
+        setSelectedProfit={setSelectedProfit}
+        setSelectedRevenue={setSelectedRevenue}
+      />
 
       <View>
         <Text style={styles.salesHeader}>
@@ -285,11 +347,14 @@ const HomeScreen = () => {
             ? "for the last 7 days"
             : selectedPeriod === "lastMonth"
             ? "for the last 30 days"
+            : selectedPeriod === "yesterday"
+            ? " yesterday"
             : day
             ? `for ${day}`
             : selectedPeriod}
           :
         </Text>
+
         <SalesCarousel salesDetails={filteredSales} />
       </View>
     </ScrollView>
@@ -343,8 +408,8 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 18,
-    padding: 5,
-    width: 250,
+    padding: 0,
+    width: 200,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
@@ -353,7 +418,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginBottom: 4,
   },
-  cardTitle: { fontSize: 30, fontWeight: "600", lineHeight: 40 },
+  cardTitle: { fontSize: 30, fontWeight: "600", lineHeight: 30 },
   cardText: { fontSize: 24, fontWeight: "bold" },
   salesHeader: { fontSize: 30, marginHorizontal: 20, lineHeight: 40 },
   buttonGroup: { borderColor: "rgba(0,0,0,0)", marginBottom: 5 },

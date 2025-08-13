@@ -267,7 +267,7 @@ export const expenseData = [
     description: "COMMISSION",
     cost: 200,
     category: "LEGAL/PROFESSIONAL FEES",
-    date: "2025-02-06T15:21:21.169Z",
+    date: "2025-08-13T15:21:21.169Z",
     __v: 0,
   },
   // {
