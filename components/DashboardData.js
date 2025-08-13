@@ -1,7 +1,8 @@
-export function getDashboardData({ salesData, expenses, day }) {
+export function getDashboardData({ salesData, expenseData, day }) {
   //console.log(salesData);
   let sales = salesData;
-  let expensesData = expenses;
+  let expensesData = expenseData;
+
   // Helper function to filter sales and expenses by a specific date range
   const filterByDateRange = (data, dateKey, days) => {
     if (!Array.isArray(data)) return [];

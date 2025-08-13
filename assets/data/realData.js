@@ -263,35 +263,35 @@ export const expenseData = [
     _id: {
       $oid: "67a4d37f07a4796ed7da0726",
     },
-    number: "00",
+    number: "001",
     description: "COMMISSION",
     cost: 200,
     category: "LEGAL/PROFESSIONAL FEES",
     date: "2025-08-13T15:21:21.169Z",
     __v: 0,
   },
-  // {
-  //   _id: {
-  //     $oid: "67a4d36807a4796ed7da0722",
-  //   },
-  //   number: "00",
-  //   description: "TRANSPORT",
-  //   cost: 2000,
-  //   category: "UTILITIES",
-  //   date: "2025-02-06T15:20:48.674Z",
-  //   __v: 0,
-  // },
-  // {
-  //   _id: {
-  //     $oid: "67a4d34ddfe18769c2ceb281",
-  //   },
-  //   number: "00",
-  //   description: "LUNCH",
-  //   cost: 800,
-  //   category: "MEAL EXPENSES",
-  //   date: "2025-02-06T15:20:29.323Z",
-  //   __v: 0,
-  // },
+  {
+    _id: {
+      $oid: "67a4d36807a4796ed7da0722",
+    },
+    number: "002",
+    description: "TRANSPORT",
+    cost: 2000,
+    category: "UTILITIES",
+    date: "2025-08-13T15:20:48.674Z",
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: "67a4d34ddfe18769c2ceb281",
+    },
+    number: "003",
+    description: "LUNCH",
+    cost: 800,
+    category: "MEAL EXPENSES",
+    date: "2025-08-13T15:20:29.323Z",
+    __v: 0,
+  },
   // {
   //   _id: {
   //     $oid: "67a36e452618cf5fae6120cc",
