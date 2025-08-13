@@ -1,10 +1,13 @@
 import { expenseData, salesData } from "@/assets/data/realData";
+import CustomSpinner from "@/components/CustomSpinner";
 import { getDashboardData } from "@/components/DashboardData";
+import Formatter from "@/components/Formatter";
 import SalesCarousel from "@/components/SalesCarousel";
 import { useAuthStore } from "@/providers/AuthStore";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button, Card } from "@ui-kitten/components";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
@@ -17,21 +20,21 @@ const NumbersDetails = ({
     {
       id: 1,
       title: "Profits",
-      value: profitDisplay().toLocaleString(),
+      value: profitDisplay(),
       icon: "trending-up-sharp",
       iconColor: "#057f00",
     },
     {
       id: 2,
       title: "Expenses",
-      value: expensesDisplay().toLocaleString(),
+      value: expensesDisplay(),
       icon: "card-outline",
       iconColor: "#fd0000",
     },
     {
       id: 3,
       title: "Commissions",
-      value: commissionsDisplay().toLocaleString(),
+      value: commissionsDisplay(),
       icon: "person-remove-outline",
       iconColor: "#ffa809",
     },
@@ -50,9 +53,16 @@ const NumbersDetails = ({
             color={detail.iconColor}
             style={{ marginVertical: 5 }}
           />
-          <Text style={{ ...styles.cardText, color: detail.iconColor }}>
-            KES. {detail.value}
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={{ ...styles.cardText, color: detail.iconColor }}>
+              KES.{" "}
+            </Text>
+            <Formatter
+              value={detail.value}
+              fontColor={detail.iconColor}
+              fontSize={35}
+            />
+          </View>
         </Card>
       ))}
     </>
@@ -281,6 +291,10 @@ const HomeScreen = () => {
   const profitDisplay = () =>
     profitMap[selectedProfit] ?? dashboardData.profitToday;
 
+  if (loading) {
+    return <CustomSpinner loading={loading} text={"Loading"} />;
+  }
+
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
@@ -291,12 +305,40 @@ const HomeScreen = () => {
           </Button>
         </View>
 
-        <Card style={styles.header}>
-          <Text style={styles.headerTextPrimary}>Revenue</Text>
-          <Text style={styles.headerTextSecondary}>
-            KES. {revenueDisplay().toLocaleString()}
-          </Text>
-        </Card>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          {/* Revenue Card */}
+          <LinearGradient
+            colors={["#1e7ca4ff", "#44944cff", "#0c6d11ff"]}
+            style={styles.statCard}
+          >
+            <Text style={styles.label}>Revenue</Text>
+
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.value}>KES. </Text>
+              <Formatter
+                value={revenueDisplay()}
+                fontColor={"white"}
+                fontSize={35}
+              />
+            </View>
+          </LinearGradient>
+
+          {/* Sales Card */}
+          <LinearGradient
+            colors={["#1e7ca4ff", "#44944cab", "#0c6d11e7"]}
+            style={styles.statCard}
+          >
+            <Text style={styles.label}>Sales Made</Text>
+            <Formatter value={1100} />
+          </LinearGradient>
+        </View>
       </View>
 
       {/* Cards - Overlapping */}
@@ -375,26 +417,27 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     paddingTop: 20,
   },
-  header: {
-    backgroundColor: "rgba(254, 254, 254, 0)",
-    paddingVertical: 5,
-    borderRadius: 18,
-    width: 250,
-    marginHorizontal: 5,
-    borderColor: "#ffffff",
+  statCard: {
+    flex: 1,
+    borderRadius: 16,
+    paddingVertical: 24,
+    paddingHorizontal: 20,
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 6,
   },
-  headerTextPrimary: {
-    color: "whitesmoke",
-    fontSize: 25,
+  label: {
+    fontSize: 20,
+    color: "rgba(255,255,255,0.85)",
+    marginBottom: 4,
     fontWeight: "400",
-    lineHeight: 50,
-    color: "rgba(49, 255, 8, 1)",
   },
-  headerTextSecondary: {
-    color: "whitesmoke",
-    fontSize: 40,
-    fontWeight: "bold",
-    color: "rgba(49, 255, 8, 1)",
+  value: {
+    fontSize: 25,
+    color: "#fff",
+    fontWeight: "700",
   },
 
   // Wrapper to create overlap
@@ -419,7 +462,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   cardTitle: { fontSize: 30, fontWeight: "600", lineHeight: 30 },
-  cardText: { fontSize: 24, fontWeight: "bold" },
+  cardText: { fontSize: 20, fontWeight: "bold" },
   salesHeader: { fontSize: 30, marginHorizontal: 20, lineHeight: 40 },
   buttonGroup: { borderColor: "rgba(0,0,0,0)", marginBottom: 5 },
   datePicker: {
