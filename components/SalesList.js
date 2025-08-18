@@ -24,22 +24,29 @@ const SalesList = ({
       <View style={styles.detailsContainer}>
         <Text style={styles.productDescription}>{item?.description}</Text>
         <Text style={styles.productCode}>Code: {item?.code}</Text>
-        <View
-          style={{ display: "flex", flexDirection: "row", marginBottom: 0 }}
-        >
+        <Text style={styles.productInfo}>
+          Price per unit: KES. {item?.price.toLocaleString()}
+        </Text>
+        <Text style={styles.productInfo}>Qty: {item.quantity}</Text>
+        <Text style={styles.productInfo}>Color: {item?.colour}</Text>
+        <Text style={styles.productInfo}>Item No: {item?.pnumber}</Text>
+        <View style={{ marginTop: 5 }}>
+          <Divider style={{ backgroundColor: "#b1acacff", height: 1 }} />
+        </View>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 5 }}>
           <View>
-            <Text style={styles.productPrice}>KES. </Text>
+            <Text style={{ ...styles.productPrice, fontSize: 25 }}>
+              Total: KES.{" "}
+            </Text>
           </View>
           <View>
             <Formatter
-              value={item?.price}
-              fontSize={17}
+              value={item?.total}
+              fontSize={25}
               fontColor={"#0a8744"}
             />
           </View>
         </View>
-        <Text style={styles.productInfo}>Color: {item?.colour}</Text>
-        <Text style={styles.productInfo}>Item No: {item?.pnumber}</Text>
       </View>
     </View>
   );
@@ -47,48 +54,49 @@ const SalesList = ({
   return (
     <View style={styles.container}>
       {sortedDates.map((date) => (
-        <View key={date} style={styles.section}>
-          {/* Date Header */}
-          <Text style={styles.dateHeader}>
-            {new Date(date).toLocaleDateString("en-GB", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </Text>
+        <>
+          <View key={date} style={styles.section}>
+            <Text style={styles.dateHeader}>
+              {new Date(date).toLocaleDateString("en-GB", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </Text>
 
-          {/* Totals */}
-          <View style={styles.totalsBox}>
-            <Text style={styles.totalText}>
-              Total Amount: <Text style={styles.totalHighlight}>KES.</Text>
-              <Formatter
-                value={totalAmount[date]}
-                fontSize={20}
-                fontColor={"#0aa30aff"}
-              />
-            </Text>
-            <Text style={styles.totalText}>
-              Commission: <Text style={styles.commissionHighlight}>KES.</Text>
-              <Formatter
-                value={totalCommissions[date]}
-                fontSize={20}
-                fontColor={"#e30808ff"}
-              />
-            </Text>
+            {/* Totals */}
+            <View style={styles.totalsBox}>
+              <Text style={styles.totalText}>
+                Total Amount: <Text style={styles.totalHighlight}>KES.</Text>
+                <Formatter
+                  value={totalAmount[date]}
+                  fontSize={20}
+                  fontColor={"#0aa30aff"}
+                />
+              </Text>
+              <Text style={styles.totalText}>
+                Commission: <Text style={styles.commissionHighlight}>KES.</Text>
+                <Formatter
+                  value={totalCommissions[date]}
+                  fontSize={20}
+                  fontColor={"#e30808ff"}
+                />
+              </Text>
+            </View>
+
+            {/* Sales List */}
+            <AnimatedFlatList
+              data={groupedSales[date]}
+              keyExtractor={(item) => item?._id.$oid}
+              renderItem={renderItem}
+              contentContainerStyle={{ paddingVertical: 5 }}
+              itemLayoutAnimation={LinearTransition}
+              keyboardDismissMode="on-drag"
+            />
           </View>
-
-          {/* Sales List */}
-          <AnimatedFlatList
-            data={groupedSales[date]}
-            keyExtractor={(item) => item?._id.$oid}
-            renderItem={renderItem}
-            contentContainerStyle={{ paddingVertical: 5 }}
-            itemLayoutAnimation={LinearTransition}
-            keyboardDismissMode="on-drag"
-          />
-          <Divider />
-        </View>
+          <Divider style={{ backgroundColor: "#333", height: 1 }} />
+        </>
       ))}
     </View>
   );
@@ -98,14 +106,19 @@ export default SalesList;
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f7f7f7", paddingHorizontal: 12 },
-  section: { marginBottom: 28 },
+  section: {
+    marginVertical: 18,
+    backgroundColor: "#68b1b7ff",
+    padding: 10,
+    borderRadius: 12,
+  },
   dateHeader: {
     fontSize: 25,
     fontWeight: "700",
     marginBottom: 5,
-    color: "#2a2a2a",
+    color: "#ffffffff",
     textAlign: "center",
-    lineHeight:40
+    lineHeight: 40,
   },
   card: {
     flexDirection: "row",
