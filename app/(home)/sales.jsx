@@ -1,7 +1,9 @@
 import { salesData } from "@/assets/data/realData";
 import SalesList from "@/components/SalesList";
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ImageBackground, ScrollView, StyleSheet } from "react-native";
+import bannerImg from "../../assets/images/product_banner.jpg";
 
 const SalesScreen = () => {
   const groupedSalesByDate = salesData.reduce((acc, sale) => {
@@ -40,7 +42,17 @@ const SalesScreen = () => {
   );
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
+      {/* Banner with overlay text and search */}
+      <ImageBackground source={bannerImg} style={styles.bannerImage}>
+        {/* <LinearGradient
+          colors={["rgba(61, 56, 56, 0.5)", "#d4232380"]}
+          style={styles.bannerOverlay}
+        >
+          <Text style={styles.bannerTitle}>Sales</Text>
+          <Text style={styles.bannerSubtitle}>Find your items here</Text>
+        </LinearGradient> */}
+      </ImageBackground>
       <SalesList
         sortedDates={groupedSalesByDateSorted}
         groupedSales={groupedSalesByDate}
@@ -52,3 +64,27 @@ const SalesScreen = () => {
 };
 
 export default SalesScreen;
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#fff" },
+  bannerImage: { height: 220, width: "100%" },
+  bannerOverlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+    paddingHorizontal: 16,
+    paddingBottom: 20,
+  },
+  bannerTitle: {
+    fontSize: 36,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 4,
+    lineHeight: 30,
+  },
+  bannerSubtitle: {
+    fontSize: 30,
+    lineHeight: 30,
+    color: "#f5f5f5",
+    marginBottom: 14,
+  },
+});
