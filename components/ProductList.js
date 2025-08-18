@@ -38,13 +38,25 @@ const ProductList = ({ productData, searchTerm }) => {
 
       {/* Product Details */}
       <View style={styles.detailsContainer}>
-        {highlightMatch(item.description, searchTerm, styles.productDescription)}
+        {highlightMatch(
+          item.description,
+          searchTerm,
+          styles.productDescription
+        )}
         {highlightMatch(`Code: ${item.code}`, searchTerm, styles.productCode)}
         <Text style={styles.productPrice}>
           KES. {item.price.toLocaleString()}
         </Text>
-        {highlightMatch(`Color: ${item.colour}`, searchTerm, styles.productInfo)}
-        {highlightMatch(`Item No: ${item.pnumber}`, searchTerm, styles.productInfo)}
+        {highlightMatch(
+          `Color: ${item.colour}`,
+          searchTerm,
+          styles.productInfo
+        )}
+        {highlightMatch(
+          `Item No: ${item.pnumber}`,
+          searchTerm,
+          styles.productInfo
+        )}
       </View>
     </View>
   );
@@ -53,7 +65,7 @@ const ProductList = ({ productData, searchTerm }) => {
     <SafeAreaView style={styles.container}>
       <AnimatedFlatList
         data={productData}
-        keyExtractor={(item) => item?._id}
+        keyExtractor={(item) => item?._id.$oid}
         renderItem={renderItem}
         contentContainerStyle={{ paddingHorizontal: 5 }}
         itemLayoutAnimation={LinearTransition}

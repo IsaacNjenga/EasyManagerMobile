@@ -8,7 +8,7 @@ export const salesData = [
     price: 50000,
     quantity: 1,
     total: 50000,
-    datesold: "2025-08-13T16:03:42.517Z",
+    datesold: "2025-08-18T16:03:42.517Z",
     saleperson: "ALEX",
     commission: 500,
     image: [
@@ -65,7 +65,7 @@ export const salesData = [
     price: 6000,
     quantity: 1,
     total: 6000,
-    datesold: "2025-03-31T14:54:10.271Z",
+    datesold: "2025-08-18T14:54:10.271Z",
     saleperson: "WAMAI",
     commission: 0,
     image: [""],
@@ -278,7 +278,7 @@ export const expenseData = [
     description: "TRANSPORT",
     cost: 2000,
     category: "UTILITIES",
-    date: "2025-08-13T15:20:48.674Z",
+    date: "2025-08-18T15:20:48.674Z",
     __v: 0,
   },
   {

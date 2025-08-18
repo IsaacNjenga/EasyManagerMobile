@@ -62,7 +62,7 @@ export default function SalesCarousel({ salesDetails }) {
     <View style={{ paddingVertical: 20, backgroundColor: "whitesmoke" }}>
       <Animated.FlatList
         data={salesDetails}
-        keyExtractor={(item) => item?._id}
+        keyExtractor={(item) => item?._id.$oid}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: (width - CARD_WIDTH) / 2 }}
