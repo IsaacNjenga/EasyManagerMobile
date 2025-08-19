@@ -9,14 +9,14 @@ import React, { useState } from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import bannerImg from "../../assets/images/product_banner.jpg";
 
+export const renderSearchIcon = () => (
+  <Ionicons name="search" size={20} color="#ffffffff" />
+);
+
 const ProductScreen = () => {
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [search, setSearch] = useState("");
-
-  const renderIcon = () => (
-    <Ionicons name="search" size={20} color="#ffffffff" />
-  );
 
   if (loading)
     return (
@@ -48,7 +48,7 @@ const ProductScreen = () => {
                 setSearchValue(value);
                 setSearch(value);
               }}
-              accessoryLeft={renderIcon}
+              accessoryLeft={renderSearchIcon}
               style={styles.searchInput}
             />
           </View>
@@ -74,7 +74,7 @@ export default ProductScreen;
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
-  bannerImage: { height: 220, width: "100%" },
+  bannerImage: { height: 230, width: "100%" },
   bannerOverlay: {
     flex: 1,
     justifyContent: "flex-end",

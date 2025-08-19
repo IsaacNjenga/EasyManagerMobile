@@ -66,28 +66,32 @@ const SalesList = ({
             </Text>
 
             {/* Totals */}
-            <View style={styles.totalsBox}>
-              <Text style={styles.totalText}>
-                Total Amount: <Text style={styles.totalHighlight}>KES.</Text>
-                <Formatter
-                  value={totalAmount[date]}
-                  fontSize={20}
-                  fontColor={"#0aa30aff"}
-                />
-              </Text>
-              <Text style={styles.totalText}>
-                Commission: <Text style={styles.commissionHighlight}>KES.</Text>
-                <Formatter
-                  value={totalCommissions[date]}
-                  fontSize={20}
-                  fontColor={"#e30808ff"}
-                />
-              </Text>
+            <View style={styles.totalsContainer}>
+              <View style={styles.totalsBox}>
+                <Text style={styles.totalText}>
+                  Total Amount: <Text style={styles.totalHighlight}>KES. </Text>
+                  <Text style={{ color: "#0aa30aff", fontSize: 20 }}>
+                    {totalAmount[date]?.toLocaleString()}
+                  </Text>
+                </Text>
+              </View>
+              <View style={styles.totalsBox}>
+                <Text style={styles.totalText}>
+                  Commission:{" "}
+                  <Text style={styles.commissionHighlight}>KES. </Text>
+                  <Formatter
+                    value={totalCommissions[date]}
+                    fontSize={20}
+                    fontColor={"#e30808ff"}
+                  />
+                </Text>
+              </View>
             </View>
 
             {/* Sales List */}
             <AnimatedFlatList
               data={groupedSales[date]}
+              scrollEnabled={false}
               keyExtractor={(item) => item?._id.$oid}
               renderItem={renderItem}
               contentContainerStyle={{ paddingVertical: 5 }}
@@ -95,7 +99,7 @@ const SalesList = ({
               keyboardDismissMode="on-drag"
             />
           </View>
-          <Divider style={{ backgroundColor: "#333", height: 1 }} />
+          <Divider style={{ backgroundColor: "#ffffffff", height: 1 }} />
         </>
       ))}
     </View>
@@ -105,10 +109,10 @@ const SalesList = ({
 export default SalesList;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f7f7f7", paddingHorizontal: 12 },
+  container: { flex: 1, backgroundColor: "#1bcadad5", paddingHorizontal: 12 },
   section: {
     marginVertical: 18,
-    backgroundColor: "#68b1b7ff",
+    backgroundColor: "#1bcada3e",
     padding: 10,
     borderRadius: 12,
   },
@@ -119,6 +123,7 @@ const styles = StyleSheet.create({
     color: "#ffffffff",
     textAlign: "center",
     lineHeight: 40,
+    textDecorationLine: "underline",
   },
   card: {
     flexDirection: "row",
@@ -147,20 +152,21 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   productInfo: { fontSize: 14, color: "#777" },
+  totalsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   totalsBox: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 12,
+    padding: 8,
     shadowColor: "#000",
     shadowOpacity: 0.05,
     shadowRadius: 3,
     elevation: 2,
     marginTop: 8,
-    display: "flex",
-    flexDirection: "row",
-    gap: 10,
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
   totalText: { fontSize: 15, color: "#444", marginBottom: 4 },
   totalHighlight: { fontWeight: "bold", color: "#0aa30aff" },
